@@ -1,0 +1,120 @@
+$main-header-color: rgb(87, 87, 87);
+$question-color: gray;
+$answer-box-bg: rgb(159, 155, 223);
+$answer-box-bg-hover: mediumpurple;
+$submit-bg: rgb(247, 177, 156);
+$submit-bg-hover: rgb(248, 154, 125);
+$start-quizz-btn: crimson;
+$start-quizz-btn-hover: rgb(173, 11, 44);
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@mixin flex-center{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+body{
+  font-family: 'Inter', sans-serif;
+  padding: 2rem;
+  @include flex-center();
+}
+
+button{
+  transition: .3s all ease-in-out;
+}
+
+.start-page{
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  @include flex-center();
+
+    *{
+      margin: .5rem auto; 
+    }
+
+    h1{
+      color: $main-header-color;
+    }
+
+    .start-quizz-btn{
+      padding: .5em 1em;
+      font-size: 1.2rem;
+      color: white;
+      background-color: $start-quizz-btn;
+      cursor: pointer;
+      border: none;
+
+      &:hover{
+        background-color: $start-quizz-btn-hover;
+      }
+    }
+}
+
+.quizz-page-container{
+  width: 100%;
+
+  .quizz-page-header{
+    text-align: center;
+    font-size: 3.5rem;
+    letter-spacing: 10px;
+    margin: 3rem auto;
+    color: $main-header-color;
+  }
+
+  .submit-btn{
+    font-size: 1.3rem;
+    background-color: $submit-bg;
+    color: white;
+    padding: .5rem 2rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    margin: 3rem auto;
+
+    &:hover{
+      background-color: $submit-bg-hover;
+    }
+  }
+
+  .quizz-element{
+
+    .question{
+      color: $question-color;
+      font-size: 1.5rem;
+    }
+
+    .answers-container{
+      display: flex;
+      flex-direction: column;
+      margin: 1.5rem auto;
+
+      .selected{
+        background-color: $answer-box-bg-hover;
+      }
+
+      button{
+        padding: 1em 0;
+        cursor: pointer;
+        font-size: 1.2rem;
+        background-color: $answer-box-bg;
+        color: white;
+        border: none;
+        border-radius: 9px;
+        width: 100%;
+        margin: 1rem auto;
+
+        &:hover{
+          background-color: $answer-box-bg-hover;
+        }
+      }
+    }
+  }
+}
