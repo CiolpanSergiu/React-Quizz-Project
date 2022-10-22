@@ -15,13 +15,19 @@ export default function App() {
   const [quizzElements, setQuizzElements] = React.useState();
 
   const [won, setWon] = React.useState(false);
-
+  
+  const doubleQuote = /&quot;/g
+  const singleQuote = /&#039;/g;
 
   function startQuizz() {
     setQuizz(true);
   }
 
   function getQuizzData() {
+    //don't know why but after fetching the data and converting it to a json evert "/' is replaced by 
+    //is's HTML character code. I replaced just the single quote and double quotes characters in each questions and answer
+    // because they are most frequently but there may be another character occurrence but i have yet to encounter one;
+    //don't know if there is another way to get rid of them or if there is a way to get data without them.
     return fetch("https://opentdb.com/api.php?amount=5&type=multiple")
     .then(response => response.json())
     .then(data => setQuizzData(data.results))
@@ -30,7 +36,8 @@ export default function App() {
   function checkAnswers(answersArr, answers) {
 
     for(let i = 0; i < answersArr.length; i++){
-      if(answersArr[i] !== quizzData[i].correct_answer){
+      const formatedCorrectAnswer = quizzData[i].correct_answer.replace(singleQuote, "'").replace(doubleQuote, '"')
+      if(answersArr[i] !== formatedCorrectAnswer){
         answers[i].classList.add('incorrect-answer');
       } else {
         answers[i].classList.add('correct-answer');
@@ -42,7 +49,8 @@ export default function App() {
   function showCorrectAnswers(answers) {
     for(let i = 0; i < answers.length; i++){
       for(let j = 0; j < quizzData.length; j++){
-        if(answers[i].innerText === quizzData[j].correct_answer){
+        const formatedCorrectAnswer = quizzData[j].correct_answer.replace(singleQuote, "'").replace(doubleQuote, '"')
+        if(answers[i].innerText === formatedCorrectAnswer){
           answers[i].classList.add("correct-answer");
         }
       }

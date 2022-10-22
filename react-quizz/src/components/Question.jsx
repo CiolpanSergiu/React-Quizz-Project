@@ -4,6 +4,9 @@ import Answers from './Answers';
 
 export default function Question(props) {
     const data = props.data;
+    
+    const doubleQuote = /&quot;/g
+    const singleQuote = /&#039;/g;
 
     //Fisher–Yates shuffle
     //don't know. searched on internet
@@ -19,26 +22,27 @@ export default function Question(props) {
 
     const questionAnswers = shuffleArray([
         {
-            value: data.incorrect_answers[0],
+            value: data.incorrect_answers[0].replace(singleQuote, "'").replace(doubleQuote, '"'),
             isSelected: false
         },
         {
-            value: data.incorrect_answers[1],
+            value: data.incorrect_answers[1].replace(singleQuote, "'").replace(doubleQuote, '"'),
             isSelected: false
         },
         {
-            value: data.incorrect_answers[2],
+            value: data.incorrect_answers[2].replace(singleQuote, "'").replace(doubleQuote, '"'),
             isSelected: false
         },
         {
-            value: data.correct_answer,
+            value: data.correct_answer.replace(singleQuote, "'").replace(doubleQuote, '"'),
             isSelected: false
         },
     ]);
     
     return(
         <div className="quizz-element">
-            <h3 className="question">{`${props.questionNumber}.  ${data.question}`}</h3>
+            <h3 className="question">{`${props.questionNumber}.  ${data.question.replace(singleQuote, "'").replace(doubleQuote, '"')}`}</h3>
+            <h3 className="category">{`Category: ${data.category}`}</h3>
             <Answers 
                 answers={questionAnswers}
                 correctAnswer={data.correct_answer}
