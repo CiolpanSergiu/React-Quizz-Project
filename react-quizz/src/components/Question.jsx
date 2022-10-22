@@ -35,13 +35,7 @@ export default function Question(props) {
             isSelected: false
         },
     ]);
-
-    console.log(<Answers 
-        answers={questionAnswers}
-        correctAnswer={data.correct_answer}
-        submited={props.submited}
-    />            )
-
+    
     return(
         <div className="quizz-element">
             <h3 className="question">{`${props.questionNumber}.  ${data.question}`}</h3>

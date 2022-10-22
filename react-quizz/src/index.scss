@@ -6,6 +6,8 @@ $submit-bg: rgb(247, 177, 156);
 $submit-bg-hover: rgb(248, 154, 125);
 $start-quizz-btn: crimson;
 $start-quizz-btn-hover: rgb(173, 11, 44);
+$incorrect-answer-bg: crimson;
+$correct-answer-bg: rgb(0, 250, 154);
 
 *{
   margin: 0;
@@ -82,6 +84,7 @@ button{
     &:hover{
       background-color: $submit-bg-hover;
     }
+
   }
 
   .quizz-element{
@@ -98,6 +101,14 @@ button{
 
       .selected{
         background-color: $answer-box-bg-hover;
+      }
+
+      .correct-answer{
+        background-color: $correct-answer-bg;
+      }
+
+      .incorrect-answer{
+        background-color: $incorrect-answer-bg;
       }
 
       button{
@@ -117,4 +128,8 @@ button{
       }
     }
   }
+}
+
+.results{
+  text-align: center;
 }
