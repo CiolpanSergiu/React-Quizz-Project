@@ -9,7 +9,6 @@ export default function Question(props) {
     const singleQuote = /&#039;/g;
 
     //Fisher–Yates shuffle
-    //don't know. searched on internet
     function shuffleArray(arr) {
         for(let i = arr.length - 1; i > 0; i--){
             const j = Math.floor(Math.random() * (i + 1));
