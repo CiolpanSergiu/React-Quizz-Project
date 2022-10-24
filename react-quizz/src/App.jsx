@@ -24,10 +24,10 @@ export default function App() {
   }
 
   function getQuizzData() {
-    //don't know why but after fetching the data and converting it to a json evert "/' is replaced by 
-    //is's HTML character code. I replaced just the single quote and double quotes characters in each questions and answer
-    // because they are most frequently but there may be another character occurrence but i have yet to encounter one;
-    //don't know if there is another way to get rid of them or if there is a way to get data without them.
+    //   don't know why but after fetching the data and converting it to a json every " / ' is replaced by 
+    //   is's HTML character code. I replaced just the single quote and double quotes characters in each questions and answer
+    //   because they are most frequently. There may be another character occurrence but i have yet to encounter one;
+    //   don't know if there is another way to get rid of them or if there is a way to get data without them.
     return fetch("https://opentdb.com/api.php?amount=5&type=multiple")
     .then(response => response.json())
     .then(data => setQuizzData(data.results))
