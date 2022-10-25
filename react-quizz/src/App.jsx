@@ -4,17 +4,19 @@ import {nanoid} from 'nanoid';
 
 export default function App() {
 
-  const [quizz, setQuizz] = React.useState(false);
+  //this was originally set to false but everytime Start Quizz button was pressed and the state would change to true
+  //the questions and answers show only after the page was reloaded;
+  const [quizz, setQuizz] = React.useState();
 
   const [quizzData, setQuizzData] = React.useState([]);
 
-  const [answeredQuestions, setAnsweredQuestions] = React.useState([0, false]);
+  const [quizzResults, setQuizzResults] = React.useState({questionsAnswered: 0, displayResults: false});
 
   const [correctQuestions, setCorrectQuestions] = React.useState(0);
 
   const [quizzElements, setQuizzElements] = React.useState();
 
-  const [won, setWon] = React.useState(false);
+  const [isQuizzFinished, setIsQuizzFinished] = React.useState(false);
   
   const doubleQuote = /&quot;/g
   const singleQuote = /&#039;/g;
@@ -57,35 +59,38 @@ export default function App() {
     }
   }
 
-  function submitQuizz(x) {
-    const selectedAnswers = document.getElementsByClassName('answer selected');
-    const allAnswers = document.getElementsByClassName('answer');
+  function getSpecificAnswers(answerClass) {
+    return document.getElementsByClassName(answerClass);
+  } 
 
+  function getSelectedAnswersText(answersArr) {
     const selectedAnswersArr = [];
-    // const allAnswersArr = []
 
-    for(let i = 0; i < selectedAnswers.length; i++){
-      selectedAnswersArr.push(selectedAnswers[i].innerText)
+    for(let i = 0; i < answersArr.length; i++){
+      selectedAnswersArr.push(answersArr[i].innerText)
     }
 
-    // for(let i = 0; i < allAnswers.length; i++){
-    //   allAnswersArr.push(allAnswers[i].innerText)
-    // }
+    return selectedAnswersArr;
+  }
+
+  function handleSubmit() {
+
+    const selectedAnswers = getSpecificAnswers('answer selected');
+    const allAnswers = getSpecificAnswers('answer');
+    const selectedAnswersArr = getSelectedAnswersText(selectedAnswers);
 
     checkAnswers(selectedAnswersArr, selectedAnswers);
 
     showCorrectAnswers(allAnswers)
 
-    setAnsweredQuestions([selectedAnswers.length, true]);
+    setQuizzResults({questionsAnswered: selectedAnswers.length, displayResults: true});
 
-    setWon(true);
+    setIsQuizzFinished(true);
   }
 
   React.useEffect(()=>{
     getQuizzData();
   }, []);
-
-
 
   React.useEffect(() => {
     setQuizzElements(quizzData.map((question, index) => {
@@ -101,9 +106,9 @@ export default function App() {
 
   function restartQuizz() {
     setQuizz(false);
-    setWon(false);
+    setIsQuizzFinished(false);
     getQuizzData();
-    setAnsweredQuestions([0, false]);
+    setQuizzResults({questionsAnswered: 0, displayResults: false});
     setCorrectQuestions(0)
   }
 
@@ -112,12 +117,12 @@ export default function App() {
     <div className="quizz-page-container">
       <h1 className="quizz-page-header">React Quizz</h1>
       {quizzElements}
-      {answeredQuestions[1] && <h3 className="results">You answered {correctQuestions}/{answeredQuestions[0]} question!</h3>} 
+      {quizzResults.displayResults && <h3 className="results">You answered {correctQuestions}/{quizzResults.questionsAnswered} question!</h3>} 
       <button 
         className="submit-btn"
-        onClick={won ? () => restartQuizz() : () => submitQuizz()}
+        onClick={isQuizzFinished ? () => restartQuizz() : () => handleSubmit()}
         >
-          {won ? "Restart Quizz" : "Submit Quizz"}
+          {isQuizzFinished ? "Restart Quizz" : "Submit Quizz"}
       </button>
     </div>
     :
