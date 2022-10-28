@@ -79,13 +79,15 @@ export default function App() {
     const allAnswers = getSpecificAnswers('answer');
     const selectedAnswersArr = getSelectedAnswersText(selectedAnswers);
 
-    checkAnswers(selectedAnswersArr, selectedAnswers);
+    if(selectedAnswers.length === 5){
+      checkAnswers(selectedAnswersArr, selectedAnswers);
 
-    showCorrectAnswers(allAnswers)
+      showCorrectAnswers(allAnswers)
+      
+      setQuizzResults({questionsAnswered: selectedAnswers.length, displayResults: true});
 
-    setQuizzResults({questionsAnswered: selectedAnswers.length, displayResults: true});
-
-    setIsQuizzFinished(true);
+      setIsQuizzFinished(true);
+    }
   }
 
   React.useEffect(()=>{
@@ -117,7 +119,10 @@ export default function App() {
     <div className="quizz-page-container">
       <h1 className="quizz-page-header">React Quizz</h1>
       {quizzElements}
-      {quizzResults.displayResults && <h3 className="results">You answered {correctQuestions}/{quizzResults.questionsAnswered} question!</h3>} 
+      {quizzResults.displayResults ?
+        <h3 className="results">You answered {correctQuestions}/{quizzResults.questionsAnswered} question!</h3> :
+        <h3 className="unanswered-questions-warning">You still have <strong>unanswered</strong> questions!</h3>
+      }
       <button 
         className="submit-btn"
         onClick={isQuizzFinished ? () => restartQuizz() : () => handleSubmit()}
